@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Question = ({ currentQuestion, round, changeQuestion }) => {
+const Question = ({ currentQuestion, currentRound, advanceRound, shuffleData }) => {
     
     return (
         <div>
-          <h1>Question {round + 1}</h1>
+          <h1>Question {currentRound + 1}</h1>
           <p>{currentQuestion.question}</p>
-          <form onSubmit={changeQuestion}>
+          <form onSubmit={advanceRound}>
             <button>Submit Answer</button>
           </form>
         </div>

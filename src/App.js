@@ -5,10 +5,10 @@ import './App.css';
 
 function App() {
   const [triviaGame, setTriviaGame] = useState('')
-  const [round, setRound] = useState('')
-  let currentQuestion = triviaGame[round]
+  const [currentRound, setCurrentRound] = useState(null)
+  let currentQuestion = triviaGame[currentRound]
 
-  const shuffleQuestions = (data) => {
+  const shuffleData = (data) => {
     let current = data.length
     let random
     let temp
@@ -23,69 +23,35 @@ function App() {
 
   const getTriviaGame = (e) => {
     e.preventDefault()
-    let newGame = shuffleQuestions(triviaData)
+    let newGame = shuffleData(triviaData)
     setTriviaGame(newGame.slice(0, 10))
-    setRound(0)
+    setCurrentRound(0)
   }
 
-  const changeQuestion = (e) => {
+  const advanceRound = (e) => {
     e.preventDefault()
-    setRound(round + 1)
+    setCurrentRound(currentRound + 1)
   }
 
-  switch(round) {
-    case 0:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 1:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 2:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 3:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
+  let currentDisplay = 
+    currentRound < 10 && currentRound != null ?
+      <Question 
+        currentQuestion={currentQuestion}
+        currentRound={currentRound}
+        advanceRound={advanceRound}
+        shuffleData={shuffleData}
+      />
+    :
+      <div>
+        <h1>Tandem Trivia!</h1>
+        <form onSubmit={getTriviaGame}>
+          <button>Begin</button>
+        </form>
+      </div>
 
-    case 4:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 5:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 6:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 7:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 8:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    case 9:
-      return (
-        <Question currentQuestion={currentQuestion} round={round} changeQuestion={changeQuestion} />
-      )
-    default:
-      return (
-        <div>
-          <h1>Tandem Trivia!</h1>
-          <form onSubmit={getTriviaGame}>
-            <button>Begin</button>
-          </form>
-        </div>
-      )
-  }
-
+  return (
+    currentDisplay
+  )
 }
 
 export default App
