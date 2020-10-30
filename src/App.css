@@ -1,38 +1,37 @@
-.App {
+body {
   text-align: center;
+  background-color: #eef0f2;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+button {
+  display: block;
+  margin: 2.5vh auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.radio-button-container {
+  margin: 2vh auto;
+  width: 20vw;
+  height: 2.5vh;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 1rem;
+  border-radius: 2em;
 }
 
-.App-link {
-  color: #61dafb;
+.radio-button-default {
+  background-color: #c6c7c4;
+  border-bottom: 1px solid #353b3c;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.radio-button-highlight {
+  background-color: #c6c7c4;
+  border-bottom: 1px solid #846a6a;
+}
+
+.radio-button-label {
+  width: 100%;
 }
