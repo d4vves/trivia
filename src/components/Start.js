@@ -3,12 +3,12 @@ import React from 'react'
 const Start = ({ getTriviaGame, handleNameChange, playersList }) => {
   let leaderboard = 
     playersList.length < 1 ?
-      <p>No scores.</p>
+      <p>No scores. Enter your name and click begin to start rackin' up those points!</p>
     :
       playersList.map((player, key) => (
         <p key={key}>{player.name} - {player.score}</p>
       ))
-      
+
     return (
       <main>
         <header className='main-header'>
@@ -24,7 +24,7 @@ const Start = ({ getTriviaGame, handleNameChange, playersList }) => {
           <form className='section-form' onSubmit={getTriviaGame}>
             <label  htmlFor='name'>Enter Name: </label>
             <input type='text' id='name' onChange={handleNameChange} required />
-            <button>Begin</button>
+            <button>Let's Go!</button>
           </form>
         </section>
       </main>
