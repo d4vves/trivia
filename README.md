@@ -7,7 +7,7 @@ Go ahead and `clone` this repository to your local. It's that fancy `code` butto
 
 ## Available Scripts
 
-`cd` into the /trivia project directory to run the available scripts:
+`cd` into the `/trivia` project directory to run the available scripts:
 
 `npm start` to run Lunch Time Trivia.
 
@@ -15,4 +15,4 @@ Go ahead and `clone` this repository to your local. It's that fancy `code` butto
 
 ###
 
-Thank you for taking the time to look over my trivia application!
+Thank you for taking the time to look at my trivia application!
