@@ -47,24 +47,38 @@ const Question = ({ currentQuestion, currentRound, shuffleData, nextQuestion, qu
 
   let questionDisplay = 
   !questionAnswered ?
-    <div>
-      <h1>Question {currentRound + 1}</h1>
-      <p>{currentQuestion.question}</p>
-      <form onSubmit={(e) => validateAnswers(e, userAnswer, currentQuestion.correct)}>
-        {radioButtons}
-        <button>Submit Answer</button>
-      </form>
-    </div>
+    <main>
+      <header className='main-header'>
+        <h1>Lunch Time Trivia!</h1>
+      </header>
+      <section className='section-container'>
+        <div className='section-card'>
+          <h2 className='section-header'>Question {currentRound + 1}</h2>
+          <p>{currentQuestion.question}</p>
+        </div>
+        <form onSubmit={(e) => validateAnswers(e, userAnswer, currentQuestion.correct)}>
+          {radioButtons}
+          <button>Submit Answer</button>
+        </form>
+      </section>
+    </main>
   :
-    <div>
-      <h1>Question {currentRound + 1}</h1>
-      <p>{currentQuestion.question}</p>
-      <form onSubmit={nextQuestion}>
-        {radioButtons}
-        <button>Next Question</button>
-      </form>
-      <p>{correctAnswer ? 'Correct!' : `Incorrect. The correct answer was ${currentQuestion.correct}.`}</p>
-    </div>
+    <main>
+      <header className='main-header'>
+        <h1>Lunch Time Trivia!</h1>
+      </header>
+      <section className='section-container'>
+        <div className='section-card'>
+          <h1 className='section-header'>Question {currentRound + 1}</h1>
+          <p>{currentQuestion.question}</p>
+          <h2 className='answer-display'>{correctAnswer ? 'Correct!' : `Incorrect :( The correct answer was ${currentQuestion.correct}.`}</h2>
+        </div>
+        <form onSubmit={nextQuestion}>
+          {radioButtons}
+          <button>Next Question</button>
+        </form>
+      </section>
+    </main>
 
   return (
     questionDisplay
