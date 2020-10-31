@@ -84,15 +84,7 @@ main {
   align-items: center;
   padding: 1rem;
   border-radius: 2em;
-}
-
-.radio-button-default {
   background-color: #a8dadc;
-  border-bottom: 1px solid #1d3557;
-}
-
-.radio-button-highlight {
-  background-color: #457b9d;
   border-bottom: 1px solid #1d3557;
 }
 

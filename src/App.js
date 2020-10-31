@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import triviaData from './lib/Apprentice_TandemFor400_Data.json'
 import Start from './components/Start'
 import Question from './components/Question'
-import shuffleData from './hooks/shuffleData'
+import shuffleData from './utils/shuffleData'
 import './App.css';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
   const [playersList, setPlayersList] = useState(() => JSON.parse(window.localStorage.getItem('playersList')) || [])
   const [currentPlayer, setCurrentPlayer] = useState({})
   let currentQuestion = triviaGame[currentRound]
+  
 
   const getTriviaGame = (e) => {
     e.preventDefault()
@@ -53,17 +54,22 @@ function App() {
     window.localStorage.setItem('playersList', JSON.stringify(playersList))
   }, [playersList])
 
+  const isGameInProgress = currentRound < 10 && currentRound != null
+
+  const config = {
+    currentQuestion,
+    currentRound,
+    nextQuestion,
+    questionAnswered,
+    setQuestionAnswered,
+    updatePlayerScore,
+    updatePlayersList,
+  }
+
   let gameDisplay = 
-    currentRound < 10 && currentRound != null ?
+     isGameInProgress?
       <Question 
-        currentQuestion={currentQuestion}
-        currentRound={currentRound}
-        shuffleData={shuffleData}
-        nextQuestion={nextQuestion}
-        questionAnswered={questionAnswered}
-        setQuestionAnswered={setQuestionAnswered}
-        updatePlayerScore={updatePlayerScore}
-        updatePlayersList={updatePlayersList}
+        config={config}
       />
     :
       <Start

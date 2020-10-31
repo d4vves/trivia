@@ -5,9 +5,7 @@ const Start = ({ getTriviaGame, handleNameChange, playersList }) => {
     playersList.length < 1 ?
       <p>No scores. Enter your name and click begin to start rackin' up those points!</p>
     :
-      playersList.map((player, key) => (
-        <p key={key}>{player.name} - {player.score}</p>
-      ))
+      playersList.map((player, key) => <p key={key}>{player.name} - {player.score}</p>)
 
     return (
       <main>

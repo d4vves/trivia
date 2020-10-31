@@ -1,49 +1,48 @@
 import React, { useEffect, useState } from 'react'
 import RadioButton from './RadioButton'
+import shuffleData from '../utils/shuffleData'
 
-const Question = ({ currentQuestion, currentRound, shuffleData, nextQuestion, questionAnswered, setQuestionAnswered, updatePlayerScore, updatePlayersList }) => {
+const Question = ({ config }) => {
+  const { currentQuestion, currentRound, nextQuestion, questionAnswered, setQuestionAnswered, updatePlayerScore, updatePlayersList } = config
+
   const [radioButtons, setRadioButtons] = useState([])
   const [answerPositions, setAnswerPositions] = useState([])
   const [userAnswer, setUserAnswer] = useState('')
   const [correctAnswer, setCorrectAnswer] = useState('')
 
-  const handleUserAnswer = (e) => {
-    setUserAnswer(e.target.value)
-  }
+  const handleUserAnswer = (e) => setUserAnswer(e.target.value)
 
   useEffect(() => {
     let unshuffledAnswers = [...currentQuestion.incorrect, currentQuestion.correct]
     let shuffledAnswers = shuffleData(unshuffledAnswers)
     setAnswerPositions(shuffledAnswers)
     let enabledRadioButtons = shuffledAnswers.map((answer, key) => (
-      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} />
+      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} checked={null} />
     ))
     setRadioButtons(enabledRadioButtons)
   }, [currentQuestion])
 
   useEffect(() => {
-    if (questionAnswered) {
-      let disabledRadioButtons = answerPositions.map((answer, key) => (
-        <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} disabled='disabled' checked={false} />
-      ))
-      setRadioButtons(disabledRadioButtons)
-    }
+    if (!questionAnswered) return
+
+    let disabledRadioButtons = answerPositions.map((answer, key) => (
+      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} disabled checked={false} />
+    ))
+    setRadioButtons(disabledRadioButtons)
   }, [questionAnswered, answerPositions])
 
-  const validateAnswers = (e, userAnswer, correctAnswer) => {
+  const updateGameplay = (e, userAnswer, correctAnswer) => {
     e.preventDefault()
-    if (userAnswer === correctAnswer) {
-      setQuestionAnswered(true)
-      setCorrectAnswer(true)
-      updatePlayerScore()
-    } else {
-      setQuestionAnswered(true)
-      setCorrectAnswer(false)
-    }
+    const isCorrectAnswer = userAnswer === correctAnswer
+    setQuestionAnswered(true)
+    setCorrectAnswer(isCorrectAnswer)
+    updatePlayerScore(isCorrectAnswer)
     if (currentRound === 9) {
       updatePlayersList()
     }
   }
+
+  const finalButton = currentRound === 9 ? 'End Round' : 'Next Question'
 
   let questionDisplay = 
   !questionAnswered ?
@@ -56,7 +55,7 @@ const Question = ({ currentQuestion, currentRound, shuffleData, nextQuestion, qu
           <h2 className='section-header'>Question {currentRound + 1}</h2>
           <p>{currentQuestion.question}</p>
         </div>
-        <form onSubmit={(e) => validateAnswers(e, userAnswer, currentQuestion.correct)}>
+        <form onSubmit={(e) => updateGameplay(e, userAnswer, currentQuestion.correct)}>
           {radioButtons}
           <button>Submit Answer</button>
         </form>
@@ -75,7 +74,7 @@ const Question = ({ currentQuestion, currentRound, shuffleData, nextQuestion, qu
         </div>
         <form onSubmit={nextQuestion}>
           {radioButtons}
-          <button>Next Question</button>
+          <button>{finalButton}</button>
         </form>
       </section>
     </main>
