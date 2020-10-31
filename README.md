@@ -13,6 +13,7 @@ Go ahead and `clone` this repository to your local. It's that fancy `code` butto
 
 `npm test` to launch the test runner.
 
-###
+### Thanks!
+I love using Trello to plan out what I'm doing. You can see how I thought about this app [here](https://trello.com/b/Ie0YrNXg).
 
 Thank you for taking the time to look at my trivia application!
