@@ -17,7 +17,7 @@ const Question = ({ config }) => {
     let shuffledAnswers = shuffleData(unshuffledAnswers)
     setAnswerPositions(shuffledAnswers)
     let enabledRadioButtons = shuffledAnswers.map((answer, key) => (
-      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} checked={null} />
+      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} />
     ))
     setRadioButtons(enabledRadioButtons)
   }, [currentQuestion])
@@ -26,7 +26,7 @@ const Question = ({ config }) => {
     if (!questionAnswered) return
 
     let disabledRadioButtons = answerPositions.map((answer, key) => (
-      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} disabled checked={false} />
+      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} checked={false} disabled />
     ))
     setRadioButtons(disabledRadioButtons)
   }, [questionAnswered, answerPositions])

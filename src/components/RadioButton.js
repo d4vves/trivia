@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RadioButton = ({ index, answer, handleUserAnswer, checked, disabled }) => {
+const RadioButton = ({ index, answer, handleUserAnswer, disabled, checked }) => {
 
     return (
         <div className={`radio-button-container`}>
