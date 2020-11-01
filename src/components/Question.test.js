@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Question from './Question'
 
 describe('Question', () => {
@@ -13,6 +14,10 @@ describe('Question', () => {
                 question: 'What was Tandem previous name?'
             },
             currentRound: 0,
+            nextQuestion: jest.fn(e => e.preventDefault()),
+            setQuestionAnswered: jest.fn(),
+            updatePlayerScore: jest.fn(),
+            updatePlayersList: jest.fn()
          }
     })
 
@@ -32,15 +37,27 @@ describe('Question', () => {
         })
     })
 
-    describe('when an answer is selected', () => {
-        it('sets userAnswer to the selected  value', () => {
-
+    describe('when an incorrect answer is submitted', () => {
+        it('should display the correct answer', () => {
+            render(<Question config={ {...mockConfig, questionAnswered: true} } />)
+            const correctAnswer = screen.getByText('Incorrect :( The correct answer was Devmynd.')
+            expect(correctAnswer).toBeInTheDocument()
         })
     })
 
-    describe('if the user submits the correct answer', () => {
-        it('sets correctAnswer to true', () => {
+    describe('when an answer is submitted', () => {
+        it('should set the questionAnswered state', () => {
+            render(<Question config={mockConfig} />)
+            userEvent.click(screen.getByRole('button'))
+            expect(mockConfig.setQuestionAnswered).toBeCalled()
+        })
+    })
 
+    describe('after an answer is submitted', () => {
+        it('should call the nextQuestion function on the next submit', () => {
+            render(<Question config={ {...mockConfig, questionAnswered: true} } />)
+            userEvent.click(screen.getByRole('button'))
+            expect(mockConfig.nextQuestion).toBeCalled()
         })
     })
 
