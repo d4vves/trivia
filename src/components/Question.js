@@ -9,27 +9,53 @@ const Question = ({ config }) => {
   const [answerPositions, setAnswerPositions] = useState([])
   const [userAnswer, setUserAnswer] = useState('')
   const [correctAnswer, setCorrectAnswer] = useState('')
+  const [selectedOption, setSelectedOption] = useState(false)
 
-  const handleUserAnswer = (e) => setUserAnswer(e.target.value)
+  const handleAnswerChange = (e) => {
+    setUserAnswer(e.target.value)
+  }
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value)
+  }
 
   useEffect(() => {
     let unshuffledAnswers = [...currentQuestion.incorrect, currentQuestion.correct]
     let shuffledAnswers = shuffleData(unshuffledAnswers)
     setAnswerPositions(shuffledAnswers)
-    let enabledRadioButtons = shuffledAnswers.map((answer, key) => (
-      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} />
+  }, [currentQuestion.correct, currentQuestion.incorrect])
+
+  useEffect(() => {
+    if (questionAnswered) return
+
+    let enabledRadioButtons = answerPositions.map((answer, key) => (
+      <RadioButton
+        key={key}
+        index={key}
+        answer={answer}
+        handleAnswerChange={handleAnswerChange}
+        selectedOption={selectedOption}
+        handleOptionChange={handleOptionChange}
+      />
     ))
     setRadioButtons(enabledRadioButtons)
-  }, [currentQuestion])
+  }, [answerPositions, currentQuestion, questionAnswered, selectedOption])
 
   useEffect(() => {
     if (!questionAnswered) return
 
     let disabledRadioButtons = answerPositions.map((answer, key) => (
-      <RadioButton key={key} index={key} answer={answer} handleUserAnswer={handleUserAnswer} checked={false} disabled />
+      <RadioButton
+        key={key}
+        index={key}
+        answer={answer}
+        handleAnswerChange={handleAnswerChange}
+        selectedOption={selectedOption}
+        handleOptionChange={handleOptionChange}
+        disabled
+      />
     ))
     setRadioButtons(disabledRadioButtons)
-  }, [questionAnswered, answerPositions])
+  }, [questionAnswered, answerPositions, selectedOption])
 
   const updateGameplay = (e, userAnswer, correctAnswer) => {
     e.preventDefault()

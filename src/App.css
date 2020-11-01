@@ -58,6 +58,7 @@ main {
   background-color: #f1faee;
   box-shadow: 5px 5px 7.5px #a8dadc;
   text-align: left;
+  overflow-y: scroll;
 }
 
 .section-header {
@@ -78,7 +79,7 @@ main {
 .radio-button-container {
   margin: 2vh auto;
   width: 30vmin;
-  height: 2.5vmin;
+  height: 3.5vmin;
   display: flex;
   justify-content: space-between;
   align-items: center;

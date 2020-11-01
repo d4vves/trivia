@@ -1,11 +1,13 @@
 import React from 'react'
+import _ from 'lodash'
 
 const Start = ({ getTriviaGame, handleNameChange, playersList }) => {
+  let sortedPlayersList = _.orderBy(playersList, ['score'], ['desc'])
   let leaderboard = 
     playersList.length < 1 ?
       <p>No scores. Enter your name and click begin to start rackin' up those points!</p>
     :
-      playersList.map((player, key) => <p key={key}>{player.name} - {player.score}</p>)
+      sortedPlayersList.map((player, key) => <p key={key}>{player.name} - {player.score}</p>)
 
     return (
       <main>

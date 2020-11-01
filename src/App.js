@@ -34,7 +34,8 @@ function App() {
     })
   }
 
-  const updatePlayerScore = () => {
+  const updatePlayerScore = (shouldUpdate) => {
+    if (!shouldUpdate) return
     currentPlayer.score++
     setCurrentPlayer(currentPlayer)
   }
