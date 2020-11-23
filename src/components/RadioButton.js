@@ -1,7 +1,7 @@
 import React from 'react'
 
 const RadioButton = ({ index, answer, handleAnswerChange, selectedOption, handleOptionChange, disabled }) => {
-
+    
     return (
         <div className={`radio-button-container`}>
             <input 

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import RadioButton from './RadioButton'
 import shuffleData from '../utils/shuffleData'
+import replaceCharacters from '../utils/replaceCharacters'
 
 const Question = ({ config }) => {
   const { currentQuestion, currentRound, nextQuestion, questionAnswered, setQuestionAnswered, updatePlayerScore, updatePlayersList } = config
 
+  const [correctChoice, setCorrectChoice] = useState('')
+  const [incorrectChoices, setIncorrectChoices] = useState('')
   const [radioButtons, setRadioButtons] = useState([])
   const [answerPositions, setAnswerPositions] = useState([])
   const [userAnswer, setUserAnswer] = useState('')
@@ -18,11 +21,29 @@ const Question = ({ config }) => {
     setSelectedOption(e.target.value)
   }
 
+  const updateGameplay = (e, userAnswer, correctAnswer) => {
+    e.preventDefault()
+    const isCorrectAnswer = userAnswer === correctAnswer
+    setQuestionAnswered(true)
+    setCorrectAnswer(isCorrectAnswer)
+    updatePlayerScore(isCorrectAnswer)
+    if (currentRound === 9) {
+      updatePlayersList()
+    }
+  }
+
   useEffect(() => {
-    let unshuffledAnswers = [...currentQuestion.incorrect, currentQuestion.correct]
-    let shuffledAnswers = shuffleData(unshuffledAnswers)
-    setAnswerPositions(shuffledAnswers)
-  }, [currentQuestion.correct, currentQuestion.incorrect])
+    setCorrectChoice(currentQuestion.correct_answer)
+    setIncorrectChoices(currentQuestion.incorrect_answers)
+  }, [currentQuestion])
+
+  useEffect(() => {
+    if (correctChoice && incorrectChoices && incorrectChoices.length > 2) {
+      let unshuffledAnswers = [...incorrectChoices, correctChoice]
+      let shuffledAnswers = shuffleData(unshuffledAnswers)
+      setAnswerPositions(shuffledAnswers)
+    }
+  }, [incorrectChoices, correctChoice])
 
   useEffect(() => {
     if (questionAnswered) return
@@ -57,18 +78,8 @@ const Question = ({ config }) => {
     setRadioButtons(disabledRadioButtons)
   }, [questionAnswered, answerPositions, selectedOption])
 
-  const updateGameplay = (e, userAnswer, correctAnswer) => {
-    e.preventDefault()
-    const isCorrectAnswer = userAnswer === correctAnswer
-    setQuestionAnswered(true)
-    setCorrectAnswer(isCorrectAnswer)
-    updatePlayerScore(isCorrectAnswer)
-    if (currentRound === 9) {
-      updatePlayersList()
-    }
-  }
-
   const finalButton = currentRound === 9 ? 'End Round' : 'Next Question'
+  const parsedQuestion = currentQuestion ? replaceCharacters(currentQuestion.question) : ''
 
   let questionDisplay = 
   !questionAnswered ?
@@ -79,9 +90,9 @@ const Question = ({ config }) => {
       <section className='section-container'>
         <div className='section-card'>
           <h2 className='section-header'>Question {currentRound + 1}</h2>
-          <p>{currentQuestion.question}</p>
+          <p>{parsedQuestion}</p>
         </div>
-        <form onSubmit={(e) => updateGameplay(e, userAnswer, currentQuestion.correct)}>
+        <form onSubmit={(e) => updateGameplay(e, userAnswer, currentQuestion.correct_answer)}>
           {radioButtons}
           <button>Submit Answer</button>
         </form>
@@ -95,8 +106,8 @@ const Question = ({ config }) => {
       <section className='section-container'>
         <div className='section-card'>
           <h1 className='section-header'>Question {currentRound + 1}</h1>
-          <p>{currentQuestion.question}</p>
-          <h2 className='answer-display'>{correctAnswer ? 'Correct!' : `Incorrect :( The correct answer was ${currentQuestion.correct}.`}</h2>
+          <p>{parsedQuestion}</p>
+          <h2 className='answer-display'>{correctAnswer ? 'Correct!' : `Incorrect :( The correct answer was ${currentQuestion.correct_answer}.`}</h2>
         </div>
         <form onSubmit={nextQuestion}>
           {radioButtons}

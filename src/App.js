@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import triviaData from './lib/Apprentice_TandemFor400_Data.json'
 import Start from './components/Start'
 import Question from './components/Question'
-import shuffleData from './utils/shuffleData'
 import './App.css';
 
 function App() {
@@ -11,19 +9,28 @@ function App() {
   const [questionAnswered, setQuestionAnswered] = useState(false)
   const [playersList, setPlayersList] = useState(() => JSON.parse(window.localStorage.getItem('playersList')) || [])
   const [currentPlayer, setCurrentPlayer] = useState({})
-  let currentQuestion = triviaGame[currentRound]
-  
+  const [currentQuestion, setCurrentQuestion] = useState('')
 
   const getTriviaGame = (e) => {
     e.preventDefault()
-    let newGame = shuffleData(triviaData)
-    setTriviaGame(newGame.slice(0, 10))
+    setTriviaGame('')
+    setCurrentQuestion('')
+    setCurrentRound(null)
+    fetch('https://opentdb.com/api.php?amount=10')
+      .then(response => response.json())
+      .then(json => {
+        let newGame = json.results
+        setTriviaGame(newGame)
+        setCurrentQuestion(newGame[0])
+      })
+      .catch(error => console.error('Oops!', error))
     setCurrentRound(0)
   }
 
   const nextQuestion = (e) => {
     e.preventDefault()
-    setCurrentRound(currentRound + 1)
+    setCurrentRound(prevRound => prevRound + 1)
+    setCurrentQuestion(triviaGame[currentRound + 1])
     setQuestionAnswered(false)
   }
 
