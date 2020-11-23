@@ -1,5 +1,6 @@
 # Lunch Time Trivia!
 It's lunch time and your friends want to play a quick round of trivia to test your collective mental might. Good thing you've found this repository!
+You can play the game live [here](https://tender-kirch-f09bae.netlify.app). 
 
 # Getting Started
 
