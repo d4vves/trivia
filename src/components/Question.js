@@ -38,7 +38,7 @@ const Question = ({ config }) => {
   }, [currentQuestion])
 
   useEffect(() => {
-    if (correctChoice && incorrectChoices && incorrectChoices.length > 2) {
+    if (correctChoice && incorrectChoices) {
       let unshuffledAnswers = [...incorrectChoices, correctChoice]
       let shuffledAnswers = shuffleData(unshuffledAnswers)
       setAnswerPositions(shuffledAnswers)
